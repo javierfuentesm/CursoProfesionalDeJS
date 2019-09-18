@@ -1,26 +1,48 @@
+class MediaPlayer {
+  constructor(config) {
+    this.media = config.el;
+    this.plugins = config.plugins || [];
+    this._initPlugins();
+  }
 
-class MediaPlayer{
-    constructor(config){
-        this.media = config.el
-    }
+  _initPlugins() {
+    this.plugins.forEach(plugin => {
+      plugin.run(this);
+    });
+  }
+  play() {
+    this.media.play();
+  }
 
-    play(){
-        this.media.play()
-    }
+  pause() {
+    this.media.pause();
+  }
 
-    pause(){
-        this.media.pause()
+  togglePlay() {
+    if (this.media.paused) {
+      this.media.play();
+    } else {
+      this.media.pause();
     }
+  }
+  mute() {
+    this.media.muted = true;
+  }
+  unmute() {
+    this.media.muted = false;
+  }
 
-    togglePlay(){
-        if(this.media.paused){
-            this.media.play()
-        }else{
-            this.media.pause()
-        }
-    }
+  toggleMute() {
+ /*    if (this.media.muted === true) {
+      this.unmute();
+    } else {
+      this.mute();
+    } */
+
+   (this.media.muted) ? this.unmute() : this.mute()
+  }
 }
-     /*  function MediaPlayer(config) {
+/*  function MediaPlayer(config) {
         this.media = config.el;
       }
 
@@ -40,4 +62,4 @@ class MediaPlayer{
         }
       }; */
 
-      export default MediaPlayer;
+export default MediaPlayer;
