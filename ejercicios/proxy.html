@@ -21,31 +21,29 @@
       // Ejemplos de levenshtein distance (usa window.Levenshtein)
 
       const target = {
-        red: 'Rojo',
-        green: 'Verde',
-        blue: 'Azul',
+        red: "Rojo",
+        green: "Verde",
+        blue: "Azul"
       };
 
       const handler = {
-        get(obj, prop) {
-          if (prop in obj) {
-            return obj[prop];
+        get(objeto, propiedad) {
+          if (propiedad in objeto) {
+            return objeto[propiedad];
           }
-
-          const suggestion = Object.keys(obj).find(key => {
-            return Levenshtein.get(key, prop) <= 3;
-          });
+          const suggestion = Object.keys(objeto).find(
+            key => Levenshtein.get(key, propiedad) <= 3
+          );
 
           if (suggestion) {
             console.log(
-              `${prop} no se encontró. Quisiste decir ${suggestion}?`
+              `${propiedad} no se encontro .Quisiste decir ${suggestion}? `
             );
           }
 
-          return obj[prop];
-        },
+          return objeto[propiedad];
+        }
       };
-
       const p = new Proxy(target, handler);
     </script>
   </body>
