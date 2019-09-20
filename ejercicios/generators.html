@@ -17,15 +17,51 @@
         yield 2;
         yield 3;
         console.log('generator END');
-        
+
       }
 
       const gen= simpleGenerator()
 
 
       // Podemos hacer generadores infinitos.
+      function* makers() {
+        let id= 1;
+        while(true) {
+          yield id;
+          id++
+        }
+
+      }
+
       // Cuando llamamos next también podemos pasar valores que la función recibe.
+
+      function* makersWithReset() {
+        let id= 1;
+        while(true) {
+          reset=yield id;
+          if (reset) {
+            id=1  
+          }else id++
+        }
+
+      }
+
       // Ahora hagamos un ejemplo un poco más complejo: la secuencia fibonacci
+
+      function* fibonacci() {
+
+        let a=1;
+        let a=2;
+        while (true) {
+          const nextNumber= a+b;
+          a=b;
+          b= nextNumber;
+          yield nextNumber;
+          
+
+        }
+        
+      }
     </script>
   </body>
 </html>
