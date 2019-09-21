@@ -12,3 +12,10 @@ const button = document.getElementById("play");
 button.onclick = () => player.togglePlay();
 const button2 = document.getElementById("mute");
 button2.onclick = () => player.toggleMute();
+
+
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').catch(error=>{
+        console.log(error.message)
+    });
+}   
