@@ -12,7 +12,7 @@
     "url": "git+https://github.com/javierfuentesm/CursoProfesionalDeJS.git"
   },
   "scripts": {
-    "start": "live-server"
+    "start": "parcel index.html ejercicios/index.html ejercicios/**/*.html"
   },
   "devDependencies": {
     "eslint": "^6.4.0",
@@ -21,6 +21,11 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^1.7.0",
-    "live-server": "^1.2.1"
-  }
+    "live-server": "^1.2.1",
+    "parcel-bundler": "^1.12.3",
+    "typescript": "^3.6.3"
+  },
+  "browserslist": [
+    "last 1 Chrome version"
+  ]
 }
