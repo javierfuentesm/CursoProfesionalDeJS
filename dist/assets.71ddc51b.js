@@ -117,50 +117,256 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"sw.js":[function(require,module,exports) {
-const VERSION = 'v1';
-self.addEventListener("install", event => {
-  event.waitUntil(precache());
-});
-self.addEventListener("fetch", event => {
-  const request = event.request; //get
+})({"assets/MediaPlayer.ts":[function(require,module,exports) {
+"use strict";
 
-  if (request.method !== "GET") {
-    return;
-  } //buscar en cache
-
-
-  event.respondWith(cachedResponse(request)); //Actualziar el cache
-
-  event.waitUntil(updateCache(request));
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
 
-async function precache() {
-  const cache = await caches.open(VERSION);
-  return cache.addAll([
-    /*     "/",
-        "/index.html",
-        "/assets/index.js",
-        "/assets/MediaPlayer.js",
-        "/assets/plugins/AutoPlay.js",
-        "/assets/plugins/AutoPause.js",
-        "/assets/index.css",
-        "/assets/BigBuckBunny.mp4" */
-  ]);
-}
+var MediaPlayer =
+/** @class */
+function () {
+  function MediaPlayer(config) {
+    this.media = config.el;
+    this.plugins = config.plugins || [];
+    this.initPlugins();
+  }
 
-async function cachedResponse(request) {
-  const cache = await caches.open(VERSION);
-  const response = await cache.match(request);
-  return response || fetch(request);
-}
+  MediaPlayer.prototype.initPlugins = function () {
+    /*
+    const player = {
+            //Con Typescript ya no es ncesario porqueya existe private
+    play: () => this.play(),
+      pause: () => this.pause(),
+      media: this.media,
+      get muted() {
+        return this.media.muted;
+      },
+            set muted(value) {
+        this.media.muted = value;
+      }
+    }; */
+    var _this = this;
 
-async function updateCache(request) {
-  const cache = await caches.open(VERSION);
-  const response = await fetch(request);
-  return cache.put(request, response);
+    this.plugins.forEach(function (plugin) {
+      plugin.run(_this);
+    });
+  };
+
+  MediaPlayer.prototype.play = function () {
+    this.media.play();
+  };
+
+  MediaPlayer.prototype.pause = function () {
+    this.media.pause();
+  };
+
+  MediaPlayer.prototype.togglePlay = function () {
+    if (this.media.paused) {
+      this.media.play();
+    } else {
+      this.media.pause();
+    }
+  };
+
+  MediaPlayer.prototype.mute = function () {
+    this.media.muted = true;
+  };
+
+  MediaPlayer.prototype.unmute = function () {
+    this.media.muted = false;
+  };
+
+  MediaPlayer.prototype.toggleMute = function () {
+    /*    if (this.media.muted === true) {
+      this.unmute();
+    } else {
+      this.mute();
+    } */
+    this.media.muted ? this.unmute() : this.mute();
+  };
+
+  return MediaPlayer;
+}();
+/*  function MediaPlayer(config) {
+        this.media = config.el;
+      }
+
+      MediaPlayer.prototype.play = function() {
+        this.media.play();
+      };
+
+      MediaPlayer.prototype.pause = function() {
+        this.media.pause();
+      };
+
+      MediaPlayer.prototype.togglePlay = function() {
+        if (this.media.paused) {
+          this.play();
+        } else {
+          this.pause();
+        }
+      }; */
+
+
+exports.default = MediaPlayer;
+},{}],"assets/plugins/AutoPlay.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var AutoPlay =
+/** @class */
+function () {
+  function AutoPlay() {}
+
+  AutoPlay.prototype.run = function (player) {
+    if (!player.media.muted) {
+      player.media.muted = true;
+    }
+
+    player.play();
+  };
+
+  return AutoPlay;
+}();
+
+exports.default = AutoPlay;
+},{}],"assets/plugins/AutoPause.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var AutoPause =
+/** @class */
+function () {
+  function AutoPause() {
+    this.threshold = 0.25; //Vamos a establecer el this permanentemente a la instancia del proyecto o con un arrow function  se puede omitir
+
+    this.handleIntersection = this.handleIntersection.bind(this);
+    this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
+  }
+
+  AutoPause.prototype.run = function (player) {
+    this.player = player;
+    var observer = new IntersectionObserver(this.handleIntersection, {
+      threshold: this.threshold
+    });
+    observer.observe(this.player.media);
+    document.addEventListener("visibilitychange", this.handleVisibilityChange);
+  }; //Con el arrow function le pasamos automaticamente el scope de la misma funcon
+
+
+  AutoPause.prototype.handleIntersection = function (entries) {
+    var entry = entries[0];
+    var isVisible = entry.intersectionRatio >= this.threshold;
+
+    if (isVisible) {
+      this.player.play();
+    } else {
+      this.player.pause();
+    }
+  };
+
+  AutoPause.prototype.handleVisibilityChange = function () {
+    var isVisible = document.visibilityState === "visible";
+
+    if (isVisible) {
+      this.player.play();
+    } else {
+      this.player.pause();
+    }
+  };
+
+  ;
+  return AutoPause;
+}();
+
+exports.default = AutoPause;
+/* class AutoPause {
+  constructor() {
+    this.threshold = 0.25;
+    //Vamos a establecer el this permanentemente a la instancia del proeycto
+    //this.handleIntersection = this.handleIntersection.bind(this);
+  }
+  run(player) {
+    this.player = player;
+    const observer = new IntersectionObserver(this.handleIntersection, {
+      threshold: this.threshold
+    });
+    observer.observe(this.player.media);
+  }
+
+
+    handleIntersection = entries => {
+    const entry = entries[0];
+
+    const isVisible = entry.intersectionRatio >= this.threshold;
+    if (isVisible) {
+      this.player.play();
+    } else {
+      this.player.pause();
+    }
+  };
+
+  handleVisibilityChange = () => {
+    const isVisible = document.visibilityState === "visible";
+    if (isVisible) {
+      this.player.play();
+    } else {
+      this.player.pause();
+    }
+  };
 }
-},{}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+export default AutoPause;
+ */
+},{}],"assets/index.ts":[function(require,module,exports) {
+"use strict";
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var MediaPlayer_1 = __importDefault(require("./MediaPlayer"));
+
+var AutoPlay_1 = __importDefault(require("./plugins/AutoPlay"));
+
+var AutoPause_1 = __importDefault(require("./plugins/AutoPause"));
+
+var video = document.querySelector("video");
+var player = new MediaPlayer_1.default({
+  el: video,
+  plugins: [new AutoPlay_1.default(), new AutoPause_1.default()]
+});
+var button = document.getElementById("play");
+
+button.onclick = function () {
+  return player.togglePlay();
+};
+
+var button2 = document.getElementById("mute");
+
+button2.onclick = function () {
+  return player.toggleMute();
+};
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register("/sw.js").catch(function (error) {
+    console.log(error.message);
+  });
+}
+},{"./MediaPlayer":"assets/MediaPlayer.ts","./plugins/AutoPlay":"assets/plugins/AutoPlay.ts","./plugins/AutoPause":"assets/plugins/AutoPause.ts","D:\\javie\\OneDrive - Instituto Politecnico Nacional\\Escuela de Javascript\\Curso-profesional-de-javascript\\sw.js":[["sw.js","sw.js"],"sw.js.map","sw.js"]}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -363,5 +569,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js","sw.js"], null)
-//# sourceMappingURL=/sw.js.map
+},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js","assets/index.ts"], null)
+//# sourceMappingURL=/assets.71ddc51b.js.map

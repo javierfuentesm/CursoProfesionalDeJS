@@ -1,13 +1,19 @@
 class MediaPlayer {
+  media:HTMLMediaElement;
+  plugins:Array<any>;
+
   constructor(config) {
     this.media = config.el;
     this.plugins = config.plugins || [];
-    this._initPlugins();
+    this.initPlugins();
   }
 
-  _initPlugins() {
+  private initPlugins() {
+    /*   
     const player = {
-      play: () => this.play(),
+
+      //Con Typescript ya no es ncesario porqueya existe private
+    play: () => this.play(),
       pause: () => this.pause(),
       media: this.media,
       get muted() {
@@ -17,10 +23,10 @@ class MediaPlayer {
       set muted(value) {
         this.media.muted = value;
       }
-    };
+    }; */
 
     this.plugins.forEach(plugin => {
-      plugin.run(player);
+      plugin.run(this);
     });
   }
   play() {
