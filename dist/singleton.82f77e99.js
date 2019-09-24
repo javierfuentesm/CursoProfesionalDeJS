@@ -117,50 +117,50 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"sw.js":[function(require,module,exports) {
-const VERSION = 'v1';
-self.addEventListener("install", event => {
-  event.waitUntil(precache());
-});
-self.addEventListener("fetch", event => {
-  const request = event.request; //get
+})({"ejercicios/singleton/Singleton.ts":[function(require,module,exports) {
+"use strict";
 
-  if (request.method !== "GET") {
-    return;
-  } //buscar en cache
-
-
-  event.respondWith(cachedResponse(request)); //Actualziar el cache
-
-  event.waitUntil(updateCache(request));
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
 
-async function precache() {
-  const cache = await caches.open(VERSION);
-  return cache.addAll([
-    /*     "/",
-        "/index.html",
-        "/assets/index.js",
-        "/assets/MediaPlayer.js",
-        "/assets/plugins/AutoPlay.js",
-        "/assets/plugins/AutoPause.js",
-        "/assets/index.css",
-        "/assets/BigBuckBunny.mp4" */
-  ]);
-}
+var Singleton =
+/** @class */
+function () {
+  function Singleton() {//init
+  }
 
-async function cachedResponse(request) {
-  const cache = await caches.open(VERSION);
-  const response = await cache.match(request);
-  return response || fetch(request);
-}
+  Singleton.getInstance = function () {
+    if (!Singleton.instance) {
+      Singleton.instance = new Singleton();
+    }
 
-async function updateCache(request) {
-  const cache = await caches.open(VERSION);
-  const response = await fetch(request);
-  return cache.put(request, response);
-}
-},{}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+    return Singleton.instance;
+  };
+
+  return Singleton;
+}();
+
+exports.default = Singleton;
+},{}],"ejercicios/singleton/index.ts":[function(require,module,exports) {
+"use strict";
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var Singleton_1 = __importDefault(require("./Singleton"));
+
+var a = Singleton_1.default.getInstance();
+var b = Singleton_1.default.getInstance();
+console.log("A es igual a B?", a === b);
+},{"./Singleton":"ejercicios/singleton/Singleton.ts"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -363,5 +363,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js","sw.js"], null)
-//# sourceMappingURL=/sw.js.map
+},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js","ejercicios/singleton/index.ts"], null)
+//# sourceMappingURL=/singleton.82f77e99.js.map
