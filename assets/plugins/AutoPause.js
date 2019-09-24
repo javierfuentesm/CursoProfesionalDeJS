@@ -43,7 +43,7 @@ export default AutoPause;
   constructor() {
     this.threshold = 0.25;
     //Vamos a establecer el this permanentemente a la instancia del proeycto
-    this.handleIntersection = this.handleIntersection.bind(this);
+    //this.handleIntersection = this.handleIntersection.bind(this);
   }
   run(player) {
     this.player = player;
