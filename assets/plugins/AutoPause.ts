@@ -1,4 +1,9 @@
+
+import MediaPlayer from "../MediaPlayer";
 class AutoPause {
+  private threshold:number;
+  player: MediaPlayer;
+
   constructor() {
     this.threshold = 0.25;
     //Vamos a establecer el this permanentemente a la instancia del proyecto o con un arrow function  se puede omitir
@@ -17,7 +22,7 @@ class AutoPause {
   }
 
   //Con el arrow function le pasamos automaticamente el scope de la misma funcon
-  handleIntersection(entries) {
+  private handleIntersection(entries:IntersectionObserverEntry[]) {
     const entry = entries[0];
 
     const isVisible = entry.intersectionRatio >= this.threshold;
@@ -28,7 +33,7 @@ class AutoPause {
     }
   }
 
-  handleVisibilityChange (){
+  private handleVisibilityChange (){
     const isVisible = document.visibilityState === "visible";
     if (isVisible) {
       this.player.play();
