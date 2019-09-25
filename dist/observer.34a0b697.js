@@ -117,49 +117,60 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"sw.js":[function(require,module,exports) {
-const VERSION = 'v1';
-self.addEventListener("install", event => {
-  event.waitUntil(precache());
-});
-self.addEventListener("fetch", event => {
-  const request = event.request; //get
+})({"ejercicios/observer/index.ts":[function(require,module,exports) {
+var BitCoinPrice =
+/** @class */
+function () {
+  function BitCoinPrice() {
+    var _this = this;
 
-  if (request.method !== "GET") {
-    return;
-  } //buscar en cache
+    this.observers = [];
+    var el = document.querySelector('#value');
+    el.addEventListener('input', function () {
+      _this.notify(el.value);
+    });
+  }
 
+  BitCoinPrice.prototype.subscribe = function (observer) {
+    this.observers.push(observer);
+  };
 
-  event.respondWith(cachedResponse(request)); //Actualziar el cache
+  BitCoinPrice.prototype.unsubscribe = function (observer) {
+    var index = this.observers.findIndex(function (obs) {
+      return obs === observer;
+    });
+    this.observers.splice(index, 1);
+  };
 
-  event.waitUntil(updateCache(request));
-});
+  BitCoinPrice.prototype.notify = function (data) {
+    this.observers.forEach(function (observer) {
+      return observer.update(data);
+    });
+  };
 
-async function precache() {
-  const cache = await caches.open(VERSION);
-  return cache.addAll([
-    /*     "/",
-        "/index.html",
-        "/assets/index.js",
-        "/assets/MediaPlayer.js",
-        "/assets/plugins/AutoPlay.js",
-        "/assets/plugins/AutoPause.js",
-        "/assets/index.css",
-        "/assets/BigBuckBunny.mp4" */
-  ]);
-}
+  return BitCoinPrice;
+}();
 
-async function cachedResponse(request) {
-  const cache = await caches.open(VERSION);
-  const response = await cache.match(request);
-  return response || fetch(request);
-}
+var PriceDisplay =
+/** @class */
+function () {
+  function PriceDisplay() {
+    this.el = document.querySelector('#precio');
+  }
 
-async function updateCache(request) {
-  const cache = await caches.open(VERSION);
-  const response = await fetch(request);
-  return cache.put(request, response);
-}
+  PriceDisplay.prototype.update = function (data) {
+    this.el.innerText = data;
+  };
+
+  return PriceDisplay;
+}();
+
+var value = new BitCoinPrice();
+var display = new PriceDisplay();
+value.subscribe(display);
+setTimeout(function () {
+  value.unsubscribe(display);
+}, 5000);
 },{}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -363,5 +374,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js","sw.js"], null)
-//# sourceMappingURL=/sw.js.map
+},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js","ejercicios/observer/index.ts"], null)
+//# sourceMappingURL=/observer.34a0b697.js.map
