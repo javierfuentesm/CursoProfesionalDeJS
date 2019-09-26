@@ -1,7 +1,7 @@
 class MediaPlayer {
   media:HTMLMediaElement;
   plugins:Array<any>;
-  container: HTMLElement
+  container: HTMLElement;
 
   constructor(config) {
     this.media = config.el;
@@ -11,10 +11,10 @@ class MediaPlayer {
   }
 
   initPlayer(){
-    this.container= document.createElement('div')
-    this.container.style.position='relative';
-    this.media.parentNode.insertBefore(this.container,this.media)
-    this.container.appendChild(this.media)
+    this.container = document.createElement('div');
+    this.container.style.position = 'relative';
+    this.media.parentNode.insertBefore(this.container, this.media);
+    this.container.appendChild(this.media);
   }
 
   private initPlugins() {
@@ -35,10 +35,10 @@ class MediaPlayer {
     }; */
 
     this.plugins.forEach(plugin => {
-      
       plugin.run(this);
     });
   }
+  
   play() {
     this.media.play();
   }

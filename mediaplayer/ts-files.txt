@@ -1,0 +1,5 @@
+src/MediaPlayer.ts
+src/plugins/AutoPause.ts
+src/plugins/AutoPlay.ts
+src/plugins/Ads/Ads.ts
+src/plugins/Ads/index.ts
