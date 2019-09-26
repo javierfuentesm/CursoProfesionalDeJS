@@ -117,49 +117,64 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"sw.js":[function(require,module,exports) {
-const VERSION = 'v1';
-self.addEventListener("install", event => {
-  event.waitUntil(precache());
-});
-self.addEventListener("fetch", event => {
-  const request = event.request; //get
+})({"ejercicios/decorator/index.ts":[function(require,module,exports) {
+var Field =
+/** @class */
+function () {
+  function Field(input) {
+    var _this = this;
 
-  if (request.method !== "GET") {
-    return;
-  } //buscar en cache
+    this.input = input;
+    this.errors = [];
+    var errorMessage = document.createElement('p');
+    errorMessage.className = 'text-danger';
+    this.input.parentNode.insertBefore(errorMessage, this.input.nextSibling);
+    this.input.addEventListener('input', function () {
+      _this.errors = [];
 
+      _this.validate();
 
-  event.respondWith(cachedResponse(request)); //Actualziar el cache
+      errorMessage.innerText = _this.errors[0] || '';
+    });
+  }
 
-  event.waitUntil(updateCache(request));
-});
+  Field.prototype.validate = function () {};
 
-async function precache() {
-  const cache = await caches.open(VERSION);
-  return cache.addAll([
-    /*     "/",
-        "/index.html",
-        "/assets/index.js",
-        "/assets/MediaPlayer.js",
-        "/assets/plugins/AutoPlay.js",
-        "/assets/plugins/AutoPause.js",
-        "/assets/index.css",
-        "/assets/BigBuckBunny.mp4" */
-  ]);
+  return Field;
+}();
+
+function RequiredFieldDecorator(field) {
+  var validate = field.validate;
+
+  field.validate = function () {
+    validate();
+    var value = field.input.value;
+
+    if (!value) {
+      field.errors.push("Requerido");
+    }
+  };
+
+  return field;
 }
 
-async function cachedResponse(request) {
-  const cache = await caches.open(VERSION);
-  const response = await cache.match(request);
-  return response || fetch(request);
+function EmailFieldDecorator(field) {
+  var validate = field.validate;
+
+  field.validate = function () {
+    validate();
+    var value = field.input.value;
+
+    if (value.indexOf("@") === -1) {
+      field.errors.push("Debe ser un email ");
+    }
+  };
+
+  return field;
 }
 
-async function updateCache(request) {
-  const cache = await caches.open(VERSION);
-  const response = await fetch(request);
-  return cache.put(request, response);
-}
+var field = new Field(document.querySelector('#email'));
+EmailFieldDecorator(RequiredFieldDecorator(field));
 },{}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -363,5 +378,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js","sw.js"], null)
-//# sourceMappingURL=/sw.js.map
+},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js","ejercicios/decorator/index.ts"], null)
+//# sourceMappingURL=/decorator.df4bca80.js.map

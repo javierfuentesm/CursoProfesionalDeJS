@@ -117,50 +117,74 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"sw.js":[function(require,module,exports) {
-const VERSION = 'v1';
-self.addEventListener("install", event => {
-  event.waitUntil(precache());
-});
-self.addEventListener("fetch", event => {
-  const request = event.request; //get
+})({"node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+var bundleURL = null;
 
-  if (request.method !== "GET") {
+function getBundleURLCached() {
+  if (!bundleURL) {
+    bundleURL = getBundleURL();
+  }
+
+  return bundleURL;
+}
+
+function getBundleURL() {
+  // Attempt to find the URL of the current script and use that as the base URL
+  try {
+    throw new Error();
+  } catch (err) {
+    var matches = ('' + err.stack).match(/(https?|file|ftp|chrome-extension|moz-extension):\/\/[^)\n]+/g);
+
+    if (matches) {
+      return getBaseURL(matches[0]);
+    }
+  }
+
+  return '/';
+}
+
+function getBaseURL(url) {
+  return ('' + url).replace(/^((?:https?|file|ftp|chrome-extension|moz-extension):\/\/.+)\/[^/]+$/, '$1') + '/';
+}
+
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+},{}],"node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
+var bundle = require('./bundle-url');
+
+function updateLink(link) {
+  var newLink = link.cloneNode();
+
+  newLink.onload = function () {
+    link.remove();
+  };
+
+  newLink.href = link.href.split('?')[0] + '?' + Date.now();
+  link.parentNode.insertBefore(newLink, link.nextSibling);
+}
+
+var cssTimeout = null;
+
+function reloadCSS() {
+  if (cssTimeout) {
     return;
-  } //buscar en cache
+  }
 
+  cssTimeout = setTimeout(function () {
+    var links = document.querySelectorAll('link[rel="stylesheet"]');
 
-  event.respondWith(cachedResponse(request)); //Actualziar el cache
+    for (var i = 0; i < links.length; i++) {
+      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
+        updateLink(links[i]);
+      }
+    }
 
-  event.waitUntil(updateCache(request));
-});
-
-async function precache() {
-  const cache = await caches.open(VERSION);
-  return cache.addAll([
-    /*     "/",
-        "/index.html",
-        "/assets/index.js",
-        "/assets/MediaPlayer.js",
-        "/assets/plugins/AutoPlay.js",
-        "/assets/plugins/AutoPause.js",
-        "/assets/index.css",
-        "/assets/BigBuckBunny.mp4" */
-  ]);
+    cssTimeout = null;
+  }, 50);
 }
 
-async function cachedResponse(request) {
-  const cache = await caches.open(VERSION);
-  const response = await cache.match(request);
-  return response || fetch(request);
-}
-
-async function updateCache(request) {
-  const cache = await caches.open(VERSION);
-  const response = await fetch(request);
-  return cache.put(request, response);
-}
-},{}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+module.exports = reloadCSS;
+},{"./bundle-url":"node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -363,5 +387,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js","sw.js"], null)
-//# sourceMappingURL=/sw.js.map
+},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js"], null)
+//# sourceMappingURL=/ejercicios/decorator/index.js.map
