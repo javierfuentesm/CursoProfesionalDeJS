@@ -26,6 +26,7 @@ class MediaPlayer {
     }; */
 
     this.plugins.forEach(plugin => {
+      debugger
       plugin.run(this);
     });
   }
@@ -61,6 +62,7 @@ class MediaPlayer {
     this.media.muted ? this.unmute() : this.mute();
   }
 }
+export default MediaPlayer;
 /*  function MediaPlayer(config) {
         this.media = config.el;
       }
@@ -81,4 +83,4 @@ class MediaPlayer {
         }
       }; */
 
-export default MediaPlayer;
+

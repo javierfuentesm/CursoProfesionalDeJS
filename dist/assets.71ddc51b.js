@@ -150,6 +150,7 @@ function () {
     var _this = this;
 
     this.plugins.forEach(function (plugin) {
+      debugger;
       plugin.run(_this);
     });
   };
@@ -189,6 +190,8 @@ function () {
 
   return MediaPlayer;
 }();
+
+exports.default = MediaPlayer;
 /*  function MediaPlayer(config) {
         this.media = config.el;
       }
@@ -208,9 +211,6 @@ function () {
           this.pause();
         }
       }; */
-
-
-exports.default = MediaPlayer;
 },{}],"assets/plugins/AutoPlay.ts":[function(require,module,exports) {
 "use strict";
 
@@ -325,7 +325,145 @@ exports.default = AutoPause;
 }
 export default AutoPause;
  */
-},{}],"assets/index.ts":[function(require,module,exports) {
+},{}],"assets/plugins/Ads/Ads.ts":[function(require,module,exports) {
+"use strict";
+
+var __spreadArrays = this && this.__spreadArrays || function () {
+  for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+
+  for (var r = Array(s), k = 0, i = 0; i < il; i++) for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++) r[k] = a[j];
+
+  return r;
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var ALL_ADS = [{
+  imageUrl: 'https://static.platzi.com/media/achievements/badge-profesional-javascript-13538df2-24ce-433f-9aa6-e34eed608e70.png',
+  title: 'Curso Profesional de JavaScript',
+  body: 'Mejora tus habilidades en Javascript. Conoce Typescript y cómo puedes ocuparlo para mejorar el control de tus variables.',
+  url: 'https://platzi.com/cursos/javascript-profesional/'
+}, {
+  imageUrl: 'https://static.platzi.com/media/achievements/badge-frontend-developer-8a49e681-3e22-408d-b886-2f47dfc9953a.png',
+  title: 'Curso de Frontend Developer',
+  body: 'Domina las bases de HTML y CSS. Define la arquitectura de tu código y construye un sitio web usando componentes estáticos. ',
+  url: 'https://platzi.com/cursos/frontend-developer/'
+}, {
+  imageUrl: 'https://static.platzi.com/media/achievements/badge-backend-node-8e6aa8a9-f7cd-42b7-bf4a-e1ee916a942b.png',
+  title: 'Curso de Backend con Node.js',
+  body: 'Crea aplicaciones backend utilizando Node.js, Express y Mongo. Entiende cómo funciona Javascript en un servidor y escribe aplicaciones con Node.js.',
+  url: 'https://platzi.com/cursos/backend-nodejs/'
+}, {
+  imageUrl: 'https://static.platzi.com/media/achievements/badge-prework-da6b0493-9908-40f3-ad53-f5d330b995b8.png',
+  title: 'Comienza tus proyectos de desarrollo para JavaScript configurando un entorno de desarrollo cómodo y adaptado a tus necesidades.',
+  body: 'Mejora tus habilidades en Javascript. Conoce Typescript y cómo puedes ocuparlo para mejorar el control de tus variables.',
+  url: 'https://platzi.com/cursos/prework/'
+}, {
+  imageUrl: 'https://static.platzi.com/media/achievements/badge-autenticacion-passport-6d45426a-2b24-4757-8927-7bfaf54529dd.png',
+  title: 'Curso de Autenticación con Passport.js',
+  body: 'Genera estrategias de autenticación Sign-In y Sign-Out usando Passport.js. Agrega autenticación con Facebook, Twitter y Google a tus desarrollos.',
+  url: 'https://platzi.com/cursos/passport/'
+}, {
+  imageUrl: 'https://static.platzi.com/media/achievements/badge-backend-frontend-02b2ac18-331a-4959-85bf-0bd3c2aa009c.png',
+  title: 'Curso de Backend for Frontend',
+  body: 'La ingeniería de software evoluciona día a día, no te quedes atrás. Ahora que eres un Desarrollador FullStack JavaScript necesitas evolucionar con el software, construye arquitecturas de software modernas.',
+  url: 'https://platzi.com/cursos/bff/'
+}, {
+  imageUrl: 'https://static.platzi.com/media/achievements/badge-react-adec89d0-1c35-4c9c-847e-18c284dc79dd.png',
+  title: 'Curso Práctico de React JS',
+  body: 'React es una de las librerías más utilizadas hoy para crear aplicaciones web. Aprende a través de la creación de la interfaz de PlatziVideo todo lo que necesitas para crear increíbles componentes con React.      ',
+  url: 'https://platzi.com/cursos/react-ejs/'
+}, {
+  imageUrl: 'https://static.platzi.com/media/achievements/badge-react-redux-2ca3c0a5-fc53-437f-bfba-69e9ddd5a803.png',
+  title: 'Curso de React Router y Redux',
+  body: 'Aprende de forma práctica a implementar React Router para manejar rutas en tus proyectos de frontend como un profesional.',
+  url: 'https://platzi.com/cursos/react-router-redux/'
+}];
+
+var Ads =
+/** @class */
+function () {
+  function Ads() {
+    this.initAds();
+  }
+
+  Ads.getInstance = function () {
+    if (!Ads.instance) {
+      Ads.instance = new Ads();
+    }
+
+    return Ads.instance;
+  };
+
+  Ads.prototype.initAds = function () {
+    this.ads = __spreadArrays(ALL_ADS);
+  };
+
+  Ads.prototype.getAd = function () {
+    if (this.ads.length === 0) {
+      this.initAds();
+    }
+
+    return this.ads.pop();
+  };
+
+  return Ads;
+}();
+
+exports.default = Ads;
+},{}],"assets/plugins/Ads/index.ts":[function(require,module,exports) {
+"use strict";
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var Ads_1 = __importDefault(require("./Ads"));
+
+var AdssPlugin =
+/** @class */
+function () {
+  function AdssPlugin() {
+    this.ads = Ads_1.default.getInstance();
+    this.handleTimeUpdate = this.handleTimeUpdate.bind(this);
+  }
+
+  AdssPlugin.prototype.run = function (player) {
+    this.player = player;
+    this.media = this.player.media;
+    this.media.addEventListener("timeupdate", this.handleTimeUpdate);
+  };
+
+  AdssPlugin.prototype.handleTimeUpdate = function () {
+    var currentTime = Math.floor(this.media.currentTime);
+
+    if (currentTime % 30 === 0) {
+      this.renderAd();
+    }
+  };
+
+  AdssPlugin.prototype.renderAd = function () {
+    if (this.currentAd) {
+      return;
+    }
+
+    var ad = this.ads.getAd();
+    this.currentAd = ad;
+    console.log(this.currentAd);
+  };
+
+  return AdssPlugin;
+}();
+
+exports.default = AdssPlugin;
+},{"./Ads":"assets/plugins/Ads/Ads.ts"}],"assets/index.ts":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -344,10 +482,12 @@ var AutoPlay_1 = __importDefault(require("./plugins/AutoPlay"));
 
 var AutoPause_1 = __importDefault(require("./plugins/AutoPause"));
 
+var Ads_1 = __importDefault(require("./plugins/Ads/"));
+
 var video = document.querySelector("video");
 var player = new MediaPlayer_1.default({
   el: video,
-  plugins: [new AutoPlay_1.default(), new AutoPause_1.default()]
+  plugins: [new AutoPlay_1.default(), new AutoPause_1.default(), new Ads_1.default()]
 });
 var button = document.getElementById("play");
 
@@ -366,7 +506,7 @@ if ('serviceWorker' in navigator) {
     console.log(error.message);
   });
 }
-},{"./MediaPlayer":"assets/MediaPlayer.ts","./plugins/AutoPlay":"assets/plugins/AutoPlay.ts","./plugins/AutoPause":"assets/plugins/AutoPause.ts","D:\\javie\\OneDrive - Instituto Politecnico Nacional\\Escuela de Javascript\\Curso-profesional-de-javascript\\sw.js":[["sw.js","sw.js"],"sw.js.map","sw.js"]}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./MediaPlayer":"assets/MediaPlayer.ts","./plugins/AutoPlay":"assets/plugins/AutoPlay.ts","./plugins/AutoPause":"assets/plugins/AutoPause.ts","./plugins/Ads/":"assets/plugins/Ads/index.ts","D:\\javie\\OneDrive - Instituto Politecnico Nacional\\Escuela de Javascript\\Curso-profesional-de-javascript\\sw.js":[["sw.js","sw.js"],"sw.js.map","sw.js"]}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -394,7 +534,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54005" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56734" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
