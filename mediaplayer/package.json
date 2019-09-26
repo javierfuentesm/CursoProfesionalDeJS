@@ -1,8 +1,8 @@
 {
-  "name": "mediaplayer",
+  "name": "@rjfm/mediaplayer",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "lib/MediaPlayer.js",
   "scripts": {
     "build": "tsc @ts-files.txt --outDir lib",
     "test": "echo \"Error: no test specified\" && exit 1"
