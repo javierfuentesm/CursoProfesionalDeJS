@@ -4,6 +4,8 @@
   "description": "",
   "main": "lib/MediaPlayer.js",
   "scripts": {
+    "ts": "tsc",
+    "ts:init": "tsc --init",
     "build": "tsc @ts-files.txt --outDir lib",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,9 +13,9 @@
   "author": "Javier Fuentes Mora",
   "license": "ISC",
   "devDependencies": {
-    "typescript": "^3.6.3"
+    "typescript": "3.5.3"
   },
   "dependencies": {
-    "typings": "^2.1.1"
+    "typings": "2.1.1"
   }
 }
