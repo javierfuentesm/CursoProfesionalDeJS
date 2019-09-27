@@ -120,9 +120,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 })({"ejercicios/singleton/Singleton.ts":[function(require,module,exports) {
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+exports.__esModule = true;
 
 var Singleton =
 /** @class */
@@ -141,7 +139,7 @@ function () {
   return Singleton;
 }();
 
-exports.default = Singleton;
+exports["default"] = Singleton;
 },{}],"ejercicios/singleton/index.ts":[function(require,module,exports) {
 "use strict";
 
@@ -151,14 +149,12 @@ var __importDefault = this && this.__importDefault || function (mod) {
   };
 };
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+exports.__esModule = true;
 
 var Singleton_1 = __importDefault(require("./Singleton"));
 
-var a = Singleton_1.default.getInstance();
-var b = Singleton_1.default.getInstance();
+var a = Singleton_1["default"].getInstance();
+var b = Singleton_1["default"].getInstance();
 console.log("A es igual a B?", a === b);
 },{"./Singleton":"ejercicios/singleton/Singleton.ts"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
@@ -188,7 +184,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53050" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54015" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -432,9 +432,7 @@ var __importDefault = this && this.__importDefault || function (mod) {
   };
 };
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+exports.__esModule = true;
 
 var mediaplayer_1 = __importDefault(require("@rjfm/mediaplayer"));
 
@@ -445,9 +443,9 @@ var AutoPause_1 = __importDefault(require("@rjfm/mediaplayer/lib/plugins/AutoPau
 var Ads_1 = __importDefault(require("@rjfm/mediaplayer/lib/plugins/Ads/"));
 
 var video = document.querySelector("video");
-var player = new mediaplayer_1.default({
+var player = new mediaplayer_1["default"]({
   el: video,
-  plugins: [new AutoPlay_1.default(), new AutoPause_1.default(), new Ads_1.default()]
+  plugins: [new AutoPlay_1["default"](), new AutoPause_1["default"](), new Ads_1["default"]()]
 });
 var button = document.getElementById("play");
 
@@ -462,11 +460,11 @@ button2.onclick = function () {
 };
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register("/sw.js").catch(function (error) {
+  navigator.serviceWorker.register("/sw.js")["catch"](function (error) {
     console.log(error.message);
   });
 }
-},{"@rjfm/mediaplayer":"node_modules/@rjfm/mediaplayer/lib/MediaPlayer.js","@rjfm/mediaplayer/lib/plugins/AutoPlay":"node_modules/@rjfm/mediaplayer/lib/plugins/AutoPlay.js","@rjfm/mediaplayer/lib/plugins/AutoPause":"node_modules/@rjfm/mediaplayer/lib/plugins/AutoPause.js","@rjfm/mediaplayer/lib/plugins/Ads/":"node_modules/@rjfm/mediaplayer/lib/plugins/Ads/index.js","D:\\javie\\OneDrive - Instituto Politecnico Nacional\\Escuela de Javascript\\Curso-profesional-de-javascript\\website\\sw.js":[["sw.js","sw.js"],"sw.js.map","sw.js"]}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"@rjfm/mediaplayer":"node_modules/@rjfm/mediaplayer/lib/MediaPlayer.js","@rjfm/mediaplayer/lib/plugins/AutoPlay":"node_modules/@rjfm/mediaplayer/lib/plugins/AutoPlay.js","@rjfm/mediaplayer/lib/plugins/AutoPause":"node_modules/@rjfm/mediaplayer/lib/plugins/AutoPause.js","@rjfm/mediaplayer/lib/plugins/Ads/":"node_modules/@rjfm/mediaplayer/lib/plugins/Ads/index.js","/Users/fuentesrj/Documents/Escuela de Javascript/CursoProfesionalDeJS/website/sw.js":[["sw.js","sw.js"],"sw.js.map","sw.js"]}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -494,7 +492,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53050" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54015" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
